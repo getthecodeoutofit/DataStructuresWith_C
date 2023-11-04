@@ -8,32 +8,37 @@ struct nodde *link;
 };
 
 void Insert_front(struct node **head){
-struct node *new = (struct node*)malloc(sizeof(struct node));
-struct node *temp = *head;
+struct node *newnode = (struct node*)malloc(sizeof(struct node));
 printf("Enter the element: ");
 int item;
 scanf("%d",&item);
-new->data = item;
+newnode->data = item;
 
 if(*head ==NULL){
-    *head = new;
-    temp = new;  
+    *head = newnode;
+    newnode->link = *head;
 }
 
 else{
-while((temp->link)!=(*head)){
+newnode->link = *head;
+*head = newnode;
+struct node *temp = *head;
+do{
 temp = temp->link;
+}while(temp->link!=newnode->link);
+temp->link = *head;
 }
-temp->link = new;
-}
-new->link = (*head);
 }
 
 void Insert_between(struct node **head){
+
 struct node *temp,*new = (struct node *)malloc(sizeof(struct node));
+
 int item,position;
+
 printf("Enter the position you want to enter the element: ");
 scanf("%d",&position);
+
 printf("Enter the element: ");
 scanf("%d",&item);
 new->data = item;
@@ -78,9 +83,9 @@ bool a = true;
 int choice;
 while(a){
 printf("Enter the choice: \n");
-printf("");
-printf("");
-printf("");
+printf(" ");
+printf(" ");
+printf(" ");
 scanf("%d",&choice);
 switch(choice){
     case 1:Insert_front(&head);
