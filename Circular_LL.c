@@ -4,33 +4,64 @@
 
 struct node{
 int data;
-struct nodde *link;
+struct node *link;
 };
 
-void Insert_front(struct node **head){
+struct node *head = NULL;
+
+void Insert_front(){
 struct node *newnode = (struct node*)malloc(sizeof(struct node));
 printf("Enter the element: ");
 int item;
 scanf("%d",&item);
 newnode->data = item;
 
-if(*head ==NULL){
-    *head = newnode;
-    newnode->link = *head;
+if(head ==NULL){
+    head = newnode;
+    newnode->link = head;
 }
 
 else{
-newnode->link = *head;
-*head = newnode;
-struct node *temp = *head;
+newnode->link = head;
+
+struct node *temp = head;
 do{
 temp = temp->link;
-}while(temp->link!=newnode->link);
-temp->link = *head;
+}while(temp->link!=head);
+head = newnode;
+temp->link = head;
+
 }
 }
 
-void Insert_between(struct node **head){
+void insert_back(){
+struct node* newnode = (struct node*)malloc(sizeof(struct node));
+int item;
+struct node * temp = head;
+printf("Enter the item: ");
+scanf("%d",&item);
+
+newnode->data = item;
+
+newnode->link = head;
+
+if(head == NULL){
+    head = newnode;
+    newnode->link = head;
+
+}
+else{
+    do{
+        temp = temp->link;
+    }while(temp->link!=head);
+
+    temp->link =  newnode;
+}
+
+
+}
+
+void Insert_between(){
 
 struct node *temp,*new = (struct node *)malloc(sizeof(struct node));
 
@@ -42,17 +73,17 @@ scanf("%d",&position);
 printf("Enter the element: ");
 scanf("%d",&item);
 new->data = item;
-if(*head ==NULL||position == 1){
-    new->link = *head;
-    (*head)->link = new;
-    *head = new;
-    temp = *head;
+if(head ==NULL||position == 1){
+    new->link = head;
+    (head)->link = new;
+    head = new;
+    temp = head;
 
 }
 else{
     
     int i;
-    for(i=1;(i<position ) && ((temp->link)!=(*head));i++){
+    for(i=1;(i<position ) && ((temp->link)!=(head));i++){
         temp = temp->link;
     }
     new ->link= temp->link;
@@ -60,7 +91,7 @@ else{
 }
 }
 
-void display(struct node *head){
+void display(){
 struct node *temp = head;
 do{
     printf("%d ",temp->data);
@@ -68,37 +99,97 @@ do{
 }while(temp != head);
 }
 
-void pop(){
+void pop_front(){
+struct node* temp = head;
+if(head == NULL){
+    printf("No element to remove: ");
+    return;
+}
+else{
+    struct node *p = head;
+    do{
+        p = p->link;
+    }while(p->link!=head);
+    head = head->link;
+    p->link = head;
+    free(temp);
+}
 
+}
+
+void pop_back(){
+struct node *temp=head;
+if(head == NULL){
+    printf("The node is empty: ");
+    return;
+}
+else{
+
+}
 }
 
 void pop_between(){
+int pos;
+if(head == NULL){
+printf("No element to delete: ");
+return;
+}
+printf("Enter the position to delete: ");
+scanf("%d",&pos);
+struct node * temp = head;
+int count = 1;
 
+while(temp!=head){
+count++;
+temp = temp->link;
+}
+struct node * itr = head;
+if((pos<=count)&&(pos>0)){
+    if(pos == 1 ){
+        head = head->link;
+        free(itr);
+        return;
+    }
+    else{
+
+    }
+ }
+
+
+else if(pos>count){
+    printf("Range out of bound: ");
+    return;
+}
 }
 
+
 int main(){
-struct node *head = NULL;
 printf("This is a circular linked list........................\n");
 bool a = true;
 int choice;
 while(a){
-printf("Enter the choice: \n");
-printf(" ");
-printf(" ");
-printf(" ");
+printf("1 - insertion front:\t\t2 - insertion between:\n");
+printf("3 - insert at any location:\t4 - pop front:\n");
+printf("4 - pop back:\t\t\t5 - pop from any location:\n");
+printf("7 - Displayig the element:\t8 - Exiting the program:\n");
+printf("Enter the choice: ");
 scanf("%d",&choice);
 switch(choice){
-    case 1:Insert_front(&head);
+    case 1:Insert_front();
     break;
-    case 2:Insert_between(&head);
+    case 2:insert_back();
     break;
-    case 3:pop(&head);
+    case 3:Insert_between();
     break;
-    case 4:pop_between(&head);
+    case 4:pop_front();
     break;
-    case 5:display(head);
+    case 5:pop_back();
     break;
-    case 6:a = false;
+    case 6:pop_between();
+    break;
+    case 7:display();
+    break;
+    case 8:a = false;
     break;
 }
 }
