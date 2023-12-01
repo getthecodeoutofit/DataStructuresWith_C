@@ -8,7 +8,8 @@ struct node*lchild,*rchild;
 
 void searchloc(int item);
 struct node *root = NULL;
-struct node* par=NULL;struct node *loc=NULL;
+struct node* par=NULL;
+struct node *loc=NULL;
 
 void insert(){
     int item;
@@ -23,14 +24,16 @@ void insert(){
         return;
     }
     searchloc(item);
+    if(par==NULL && loc == NULL){
+        printf("Item exists: ");
+    }
 
-
-    if(item > loc->data){
-            loc->rchild = newnode;
+    if(item > par->data){
+            par->rchild = newnode;
             return;
         }
-    else if(item < loc->data){
-            loc->lchild = newnode;
+    else if(item < par->data){
+            par->lchild = newnode;
             return;
         }
 }
@@ -65,63 +68,172 @@ void postorder(struct node *root){
 
 
 void searchloc(int item){
-struct node *temppar = NULL,*temploc=NULL;
-if(root ==NULL){
-    par = NULL;
-    loc = NULL;
+loc = NULL;
+par = NULL;
+
+struct node *temppar = NULL,
+*temploc=NULL;
+
+if(root==NULL){
     return;
 }
-if(root ->data == item){
-        par = NULL;
-        loc = root;
-        return ;
+else if(root->data == item){
+    loc = root;
+    return;
 }
 else{
-        temploc = root;
-
-        while((temploc->lchild != NULL )&&(temploc->rchild!=NULL)){
-        if(item < temploc->data){
-            temppar = temploc;
-            temploc = temploc->lchild;
+    temppar = root;
+    if(item>root->data){
+        temploc = root->rchild;
+        while(temploc!=NULL){
+            if(temploc->data == item){
+                loc = temploc;
+                par = temppar;
+                return;
+            }
+            else if(temploc->data<item){
+                temppar = temploc;
+                temploc = temploc->rchild;
+            }
+            else if(temploc->data>item){
+                temppar = temploc;
+                temploc = temploc->lchild;
+            }
+            else{
+                par =NULL;
+                loc =NULL;
+                return;
+            }
 
         }
-        else if(item > temploc->data){
-            temppar = temploc;
-            temploc = temploc->lchild;
-
-        }
-        else if(temploc->data == item){
-            par = temppar;
-            loc = temploc;
-            return;
-        }
-
-        }
-        loc = temploc;
         par = temppar;
+        loc = NULL;
+    }
+    else if(item < root->data){
+        temploc = root->lchild;
+        while(temploc!=NULL){
+            if(temploc->data == item){
+                loc = temploc;
+                par = temppar;
+                return;
+            }
+            else if(temploc->data<item){
+                temppar = temploc;
+                temploc = temploc->rchild;
+            }
+            else if(temploc->data>item){
+                temppar = temploc;
+                temploc = temploc->lchild;
+            }
+            else{
+                par =NULL;
+                loc =NULL;
+                return;
+            }
 
+        }
+        par = temppar;
+        loc = NULL;
     }
 }
 
 
-void DeleteElement(){
+
+}
+
+void case1(struct node *par ,struct node*loc){
+
+struct node*temp1,*temp2;
+temp1 = loc->lchild;
+temp2 = loc->rchild;
+if (par == NULL){
+root = temp2;
+struct node *trav = temp2;
+while(trav->lchild!=NULL){
+trav = trav->lchild;
+}
+trav->lchild = temp1;
+}
+
+
+else{
+  struct node *trav = temp2;
+if(par->lchild == loc){
+  par->lchild = temp2;
+  while(trav->lchild!= NULL){
+    trav = trav->lchild;
+  }
+  trav->lchild = temp1;
+}
+
+else if(par->rchild ==loc){
+    par->rchild = temp2;
+    struct node *trav = temp2;
+    while(trav->lchild!= NULL){
+      trav = trav->lchild;
+    }
+    trav->lchild = temp1;
+}
+}
+
+free(loc);
+
+}
+
+void case2(struct node*par,struct node*loc){
+
+
+}
+
+void case3(struct node*par,struct node * loc){
+
+}
+
+void delete(){
     int item;
-    printf("Enter the element to delete: ");
+    printf("ENter the item: ");
     scanf("%d",&item);
     searchloc(item);
-    if(root == NULL){
-        printf("Element not found: ");
-        return ;
+
+
+    if(par==NULL&& loc!=NULL){
+    printf("location found\n");
+}
+
+    if(par == NULL && loc == root){
+        if(root->lchild != NULL && root->rchild != NULL){
+          case1(par,loc);
+        }
+        else if(root->lchild == NULL && root->rchild == NULL){
+          case3(par,loc);
+        }
+        else{
+          case2(par,loc);
+        }
     }
-    else if(root->data == item){
-
-
+    else if((par == NULL && loc ==NULL)||(par!=NULL && loc ==NULL)){
+      printf("no item to delte: ");
+      return;
+    }
+    else if(par != NULL && par != NULL){
+      if (loc ->rchild == NULL && loc -> lchild ==NULL){
+        case3(par,loc);
+      }
+      else if(loc->lchild !=NULL && loc->rchild ==NULL){
+        case1(par,loc);
+      }
+      else{
+        case2(par,loc);
+      }
     }
 
 }
+
+
 
 int main(){
     bool a = true;
+    int item;
     int choice;
     printf("1 - Insert element:\t\t2 - Preorder Traversal:\n");
     printf("3 - Inorder Traversal:\t\t4 - Postorder Traversal:\n");
@@ -139,10 +251,10 @@ int main(){
         break;
         case 4:postorder(root);
         break;
-        case 5:DeleteElement();
+        case 5:delete();
         break;
-        case 6:
-        int item;
+        case 6:printf("enter the item to search: ");
+
         scanf("%d",&item);
         searchloc(item);
         break;

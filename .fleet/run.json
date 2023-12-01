@@ -1,0 +1,16 @@
+{
+    "configurations": [
+        {
+            "type": "command",
+            "name": "build",
+            "program": "/usr/bin/c++",
+            "args": ["/home/ravi/DataStructuresWith_C/tree.c", "gcc","-o", "solution"],
+
+        },
+        {
+            "type": "command",
+            "name": "run",
+            "program": "/usr/bin/g++",
+            "args": ["./solution"],
+},
+    ]
