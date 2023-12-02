@@ -2,6 +2,7 @@
 #include<stdlib.h>
 
 typedef enum{link,thread} num;
+
 struct Node{
 int data;
 struct Node *left, *right;
@@ -33,15 +34,19 @@ void search(){
 
 }
 
+void traversal(){
+
+}
 
 //infix L->node->right
 int main(){
 
 int choice,item;
-printf("");
-printf("");
+printf("1 - insertion: 2 - deletion: \n");
+printf("3 - display: \n");
 while(1){
     printf("Enter your choice: ");
+    scanf("%d",&choice);
     switch(choice){
         case 1:insert();
         break;

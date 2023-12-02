@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
+
 struct node{
 int data;
 struct node*lchild,*rchild;
@@ -182,11 +183,53 @@ free(loc);
 
 void case2(struct node*par,struct node*loc){
 
+  if(par ==NULL && loc ==root ){
+    if (root->rchild ==NULL){
+      root = root->lchild;
 
+    }
+    else if(root->lchild ==NULL){
+      root = root->rchild;
+    }
+
+  }
+else if(par!=NULL && loc !=NULL){
+  if(loc->rchild ==NULL){
+    if(par->rchild ==loc){
+      par->rchild = loc->lchild;
+    }
+    else if(par->lchild == loc){
+      par->lchild = loc->lchild;
+    }
+  }
+
+  else if(loc->lchild == NULL){
+    if(par->rchild == loc){
+        par->rchild = loc->rchild;
+    }
+    else if(par->lchild ==loc){
+      par->lchild = loc->rchild;
+    }
+  }
 }
+free(loc);
+  }
+
 
 void case3(struct node*par,struct node * loc){
+if(par == NULL && loc ==root){
+root = NULL;
+}
 
+else if(par !=NULL){
+if(loc == par->lchild){
+  par->lchild = NULL;
+}
+else if(loc == par->rchild){
+  par->rchild = NULL;
+}
+}
+free(loc);
 }
 
 void delete(){
@@ -212,7 +255,7 @@ void delete(){
         }
     }
     else if((par == NULL && loc ==NULL)||(par!=NULL && loc ==NULL)){
-      printf("no item to delte: ");
+      printf("no item to delte: \n");
       return;
     }
     else if(par != NULL && par != NULL){
@@ -237,10 +280,10 @@ int main(){
     int choice;
     printf("1 - Insert element:\t\t2 - Preorder Traversal:\n");
     printf("3 - Inorder Traversal:\t\t4 - Postorder Traversal:\n");
-    printf("5 - Deletin by element:\t\t6 - Search Element:\n");
+    printf("5 - Deleting by element:\t\t6 - Search Element:\n");
     printf("7 - Exit:\n");
     while(a){
-    printf("Enter the choice: ");
+    printf("\nEnter the choice: ");
     scanf("%d",&choice);
     switch(choice){
         case 1:insert();
@@ -254,7 +297,6 @@ int main(){
         case 5:delete();
         break;
         case 6:printf("enter the item to search: ");
-
         scanf("%d",&item);
         searchloc(item);
         break;
