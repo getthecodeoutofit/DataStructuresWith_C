@@ -65,7 +65,7 @@ void reverse(){
 void delete(){
   struct node * temp = Head->next;
     int item;
-    printf("ENter the item to delete: ");
+    printf("Enter the item to delete: ");
     scanf("%d",&item);
   if(Head == NULL){
     printf("No item to delete: \n");
@@ -80,19 +80,25 @@ void delete(){
     struct node * prev = Head;
     while(temp!=NULL){
       if(temp->data == item){
-        
+        prev ->next = temp->next;
+        free(temp);
+        return;
       }
       prev = temp;
       temp  = temp->next;
+
     }
-        
+    if(temp == NULL){
+      printf("Item not found: \n");
+    }
   }
 }
 
 int main(){
   int choice;
+  printf("1 - Insertion:\t\t\t2 - Display: \n3 - Reversal: \t\t\t4 - Deletion:\n");
   while(1){
-    printf("ENter the choice: ");
+    printf("\nEnter the choice: ");
     scanf("%d",&choice);
     switch(choice){
       case 1:insert();
@@ -101,8 +107,7 @@ int main(){
           break;
           case 3:reverse();
             break;
-            case 4:
-              delete();
+            case 4:delete();
               break;
     }
   }

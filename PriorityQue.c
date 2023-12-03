@@ -31,22 +31,48 @@ void create(){
 
 void display(){
   struct node* temp = Head;
+  if(Head ==NULL){
+    printf("NO item to display: ");
+    return;
+  }
+
   while(temp!=NULL){
-    printf("%d",temp->data);
+    printf("data: %d",temp->data);
+    printf("\npriority: %d",temp->priority);
     temp = temp->next;
-    
   }
 }
 
-void delete(){
-  struct node * temp = Head;
-  
+void deletePriority(){
+  int pri;
+  printf("Enter the priority: ");
+  scanf("%d",&pri);
+  struct node * temp = Head->next,*slow = Head;
+  if(Head ==NULL){
+    printf("No item to delete: ");
+    return;
+  }
+  else if(Head->priority == pri){
+    Head = temp;
+    free(slow);
+    return;
+    }
+    else{
+
+
+    }
+
+
+}
+
+void deleteitem(){
+  struct node * temp = Head->next,*slow = Head;
 }
 
 int main(){
   int choice;
   while(1){
-    printf("ENter your choice: ");
+    printf("Enter your choice: ");
     scanf("%d",&choice);
     switch(choice){
       case 1:

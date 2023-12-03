@@ -1,51 +1,72 @@
-#include<stdio.h>
-#include<stdbool.h>
+#include <stdlib.h>
+#include <stdio.h>
 
+int front = -1,rear = -1;
 
-void insertion(int *move,int *front,int num,int size,int *q){
-    if(move==size){
-        printf("the queue is full: ");
-        return;
-    }
-    if(*front == -1){
-        *front =0;
-        *move =0;
-    }
-    q[*move]=num;
-    (*move)++;
-
+void push(int size,int *q){
+int item;
+printf("Enter the item: ");
+scanf("%d",&item);
+if(front == -1){
+  front = 0;
+  rear = 0;
+  q[rear] = item;
 }
-
-void pop(int *move,int *front,int *q){
-    if(*front==-1){
-        printf("noting to pop: ");
-        return;
-    }
-    if(*front == *move){
-        *front = -1;
-        return;
-    }
-    (*front)++;
+else if(rear != size-1){
+  rear ++;
+  q[rear] = item;
 }
-void main(){
-int size,front=-1,move=-1;
-printf("enter the size for the queue: ");
-scanf("%d",&size);
-int queue[size];
-bool a=true;
-int choice,k,num;
-while(a){
-printf("enter the choice you want to make: \n1 for insertion \n2 for deleting/pop\n3for traversing\n4 for searching\n5 for exit: ");
-scanf("%d",&choice);
-switch (choice)
-{
-case /* constant-expression */1: 
-
-    /* code */
-    break;
-
-default:
-    break;
+else{
+  printf("Size exceeds: ");
+  return;
 }
 }
+
+
+void pop(int size,int *q){
+  if (front == -1){
+    printf("The Queues is empty:\n");
+    return;
+  }
+  else{
+    if (front == rear){
+      front = rear = -1;
+    }
+    else {
+      front++;
+    }
+
+  }
+
+}
+void display(int *q){
+  int start = front ;
+  int end = rear;
+  while(start != end){
+    printf("%d\n",q[start++]);
+  }
+  printf("%d\n",q[start]);
+}
+
+
+int main(){
+  int n;
+  printf("Enter the size of Queue: ");
+  scanf("%d",&n);
+  int arr[n];
+  int choice;
+
+  while(1){
+    printf("\nEnter the choice: ");
+    scanf("%d",&choice);
+    switch(choice){
+      case 1:push(n,arr);
+        break;
+        case 2:pop(n,arr);
+          break;
+          case 3:display(arr);
+            break;
+    }
+  }
+
 }
