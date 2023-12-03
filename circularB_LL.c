@@ -6,8 +6,9 @@ struct Node{
     struct Node* next;
 };
 
-struct Node *Tail = NULL;
 //tail will store the address of the last element
+struct Node *Tail = NULL;
+
 void Finsert(){
     printf("Enter the item: ");
     int item;
@@ -74,6 +75,8 @@ case 1:Finsert();
 case 2:Binsert();
 break;
 case 3:display();
+break;
+case 4:
 break;
 default:printf("\nEnter the valid choice: \n");
     break;
