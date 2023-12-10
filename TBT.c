@@ -2,17 +2,26 @@
 #include<stdlib.h>
 
 typedef enum{link,thread} num;
-
 struct Node{
 int data;
 struct Node *left, *right;
 num l,r;
 };
 
+struct Node * Header = NULL;
 struct Node *Head = NULL;
 struct Node *parent = NULL;
 struct Node *child = NULL;
 
+
+void creation(){
+  Header = (struct Node*)malloc(sizeof(struct Node));
+  Header->data = 0;
+  Header->l = link;
+  Header->left = Header;
+  Header->r = thread;
+  Header->right = Head;
+}
 
 void insert(){
     struct Node *newnode = (struct Node*)malloc (sizeof(struct Node));
@@ -30,7 +39,7 @@ void insert(){
     }
 }
 
-void search(){
+void search(int item){
 
 }
 
@@ -60,9 +69,4 @@ while(1){
         break;
     }
 }
-
-
-
-
-
 }

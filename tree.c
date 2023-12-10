@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
+#include<math.h>
 
 struct node{
 int data;
@@ -44,7 +45,7 @@ void preorder(struct node *root){
     if(root == NULL){
         return;
     }
-    printf("%d\t",root->data);
+    printf("%d",root->data);
     preorder(root->lchild);
     preorder(root->rchild);
 }
@@ -139,6 +140,26 @@ else{
 }
 
 
+
+}
+
+int maximum(int a,int b){
+  if(a>b){
+    return a;
+  }
+  else {
+    return b;
+  }
+
+
+}
+
+
+int Height(struct node * root){
+  if(root == NULL){
+    return 0;
+  }
+  return 1+maximum(Height(root->lchild),Height(root->rchild));
 
 }
 
@@ -273,6 +294,12 @@ void delete(){
 }
 
 
+void klargest(){
+
+
+}
+
+
 
 int main(){
     bool a = true;
@@ -296,11 +323,20 @@ int main(){
         break;
         case 5:delete();
         break;
-        case 6:printf("enter the item to search: ");
+        case 6:printf("Enter the item to search: ");
         scanf("%d",&item);
         searchloc(item);
+        if(loc == NULL){
+          printf("No element Found: ");
+        }
+        else{
+          printf("Element found at location : %p\n",loc);
+        }
         break;
-        case 7:a = false;
+        case 7:int height = Height(root);
+        printf("The height of the tree is: %d\n",height);
+        break;
+        case 8:a = false;
         break;
     }
     }
