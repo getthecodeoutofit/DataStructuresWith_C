@@ -139,8 +139,6 @@ else{
     }
 }
 
-
-
 }
 
 int maximum(int a,int b){
@@ -151,6 +149,22 @@ int maximum(int a,int b){
     return b;
   }
 
+}
+
+int leaf(struct node* root){
+  static int count = 0 ;
+  if(root == NULL){
+    return 0;
+  }
+  if(root->lchild == NULL && root ->rchild == NULL){
+    return 1;
+  }
+
+  count += leaf(root->lchild);
+  count += leaf(root->rchild);
+  int a = count;
+  count = 0;
+  return a;
 
 }
 
@@ -307,8 +321,9 @@ int main(){
     int choice;
     printf("1 - Insert element:\t\t2 - Preorder Traversal:\n");
     printf("3 - Inorder Traversal:\t\t4 - Postorder Traversal:\n");
-    printf("5 - Deleting by element:\t\t6 - Search Element:\n");
-    printf("7 - Exit:\n");
+    printf("5 - Deleting by element:\t6 - Search Element:\n");
+    printf("7 - Height of Tree:\t\t8 - Count of Leaf Nodes:\n");
+    printf("9 - Exit:\n");
     while(a){
     printf("\nEnter the choice: ");
     scanf("%d",&choice);
@@ -336,7 +351,12 @@ int main(){
         case 7:int height = Height(root);
         printf("The height of the tree is: %d\n",height);
         break;
-        case 8:a = false;
+        case 8:int count = leaf(root);
+        printf("%d\n",count);
+        break;
+        case 9:a = false;
+        break;
+        default:printf("Enter a valid choice:\n");
         break;
     }
     }
