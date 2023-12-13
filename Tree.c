@@ -25,47 +25,57 @@ void insert(){
         root = newnode;
         return;
     }
-    searchloc(item);
-    if(par==NULL && loc == NULL){
-        printf("Item exists: ");
+    else{
+      struct node * temp = root;
+      while(temp!=NULL){
+        if(temp->data > item){
+          
+          if(temp->lchild !=NULL){
+            temp = temp->lchild;
+          }
+          else{
+            temp->lchild = newnode;
+            return;
+          }
+          
+        }
+        else if(temp->data < item){
+          if(temp->rchild !=NULL){
+            temp = temp->rchild;
+          }
+          else{
+            temp->rchild = newnode;
+            return;
+          }
+        }
+      }
     }
-
-    if(item > par->data){
-            par->rchild = newnode;
-            return;
-        }
-    else if(item < par->data){
-            par->lchild = newnode;
-            return;
-        }
 }
 
 void preorder(struct node *root){
-    
     if(root == NULL){
         return;
     }
-    printf("%d",root->data);
+    printf("%d ",root->data);
     preorder(root->lchild);
     preorder(root->rchild);
 }
 void inorder(struct node *root){
-    
     if(root == NULL){
         return;
     }
-    preorder(root->lchild);
-    printf("%d\t",root->data);
-    preorder(root->rchild);
+    inorder(root->lchild);
+    printf("%d ",root->data);
+    inorder(root->rchild);
 }
 void postorder(struct node *root){
     
     if(root == NULL){
         return;
     }
-    preorder(root->lchild);
-    preorder(root->rchild);
-    printf("%d\t",root->data);
+    postorder(root->lchild);
+    postorder(root->rchild);
+    printf("%d ",root->data);
 }
 
 
@@ -85,7 +95,7 @@ else if(root->data == item){
 }
 else{
     temppar = root;
-    if(item>root->data){
+    if(item > root->data){
         temploc = root->rchild;
         while(temploc!=NULL){
             if(temploc->data == item){
@@ -150,6 +160,7 @@ int maximum(int a,int b){
   }
 
 }
+//----------------------------------------------------------------------------------
 
 int leaf(struct node* root){
   static int count = 0 ;
@@ -168,6 +179,28 @@ int leaf(struct node* root){
 
 }
 
+//----------------------------------------------------------------------------------------------
+int atleastchild(struct node *root){
+  if (root == NULL) {
+    return 0;
+  }
+
+  // Initialize count for this node
+  int childcount = 0;
+
+  // Check if the node has at least one child
+  if (root->lchild != NULL || root->rchild != NULL) {
+    childcount = 1;
+  }
+
+  // Recursively count nodes with at least one child in left and right subtrees
+  childcount += atleastchild(root->lchild);
+  childcount += atleastchild(root->rchild);
+
+  return childcount;
+}
+
+//======================================================================================================
 
 int Height(struct node * root){
   if(root == NULL){
@@ -176,6 +209,8 @@ int Height(struct node * root){
   return 1+maximum(Height(root->lchild),Height(root->rchild));
 
 }
+
+//-----------------------------------------------------------------------------------------------------
 
 void case1(struct node *par ,struct node*loc){
 
@@ -215,6 +250,7 @@ else if(par->rchild ==loc){
 free(loc);
 
 }
+//------------------------------------------------------------------------------------------------
 
 void case2(struct node*par,struct node*loc){
 
@@ -267,6 +303,7 @@ else if(loc == par->rchild){
 free(loc);
 }
 
+//----------------------------------------------------------------------------------------------
 void delete(){
     int item;
     printf("ENter the item: ");
@@ -307,23 +344,53 @@ void delete(){
 
 }
 
+int arsize=0;
+int arr[50];
 
-void klargest(){
-
-
+void klargest(struct node * root){
+  if(root==NULL){
+    return;
+  }
+  arr[arsize]=root->data;
+  arsize++;
+  klargest(root->lchild);
+  klargest(root->rchild);
 }
+//-------------------------------------------------------------------------
+int rightcount(struct node* root){
+    if(root == NULL){
+      return 0;
+    }
+    int count =1;
+    count += rightcount(root->lchild);
+    count += rightcount(root->rchild);
+    return count;
+};
+//-----------------------------------------------------------------
+int leftcount(struct node * root){
+    if(root ==NULL){
+      return 0;
+    }
+    int count = 1;
+    
+    count += leftcount(root->lchild);
+    count += leftcount(root->rchild);
+    return count;
+};
 
+//----------------------------------------------------------------------------
 
 
 int main(){
     bool a = true;
-    int item;
+    int item,height,count,j,k,large,child,rnum,lnum;
     int choice;
     printf("1 - Insert element:\t\t2 - Preorder Traversal:\n");
     printf("3 - Inorder Traversal:\t\t4 - Postorder Traversal:\n");
     printf("5 - Deleting by element:\t6 - Search Element:\n");
     printf("7 - Height of Tree:\t\t8 - Count of Leaf Nodes:\n");
-    printf("9 - Exit:\n");
+    printf("9 - K largest element:\t\t10 - count number of node with child:\n");
+    printf("11 - Exit:\n");
     while(a){
     printf("\nEnter the choice: ");
     scanf("%d",&choice);
@@ -348,18 +415,47 @@ int main(){
           printf("Element found at location : %p\n",loc);
         }
         break;
-        case 7:int height = Height(root);
+        case 7:
+        height = Height(root);
         printf("The height of the tree is: %d\n",height);
         break;
-        case 8:int count = leaf(root);
+        case 8:count = leaf(root);
         printf("%d\n",count);
         break;
-        case 9:a = false;
+        case 9:arsize =0;
+          klargest(root);
+          for(j=0;j<arsize;j++){
+            
+            for(k=0;k<arsize-1-j;k++){
+              if(arr[k] > arr[k+1]){
+                int temp = arr[k];
+                arr[k]=arr[k+1];
+                arr[k+1] = temp;
+              }
+            }
+            
+          }
+          printf("Enter the n largest number: ");
+          scanf("%d",&large);
+          printf("The number is: %d",arr[large-1]);
         break;
+        case 10:
+          child = atleastchild(root);
+          printf("%d",child);
+        break;
+        case 11:rnum = rightcount(root->rchild);
+          printf("The number of nodes in the right subtree are: %d",rnum);
+        break;
+        case 12:lnum = leftcount(root->lchild);
+          printf("The number of nodes on left subtree are: %d",lnum);
+        break;
+        
+        case 13:a = false;
+        break;
+        
         default:printf("Enter a valid choice:\n");
         break;
     }
     }
-
     return 0;
 }

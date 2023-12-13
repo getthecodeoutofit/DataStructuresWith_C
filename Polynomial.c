@@ -14,7 +14,8 @@ struct node * added = NULL;
 
 
 void insert(struct node ** root){
-    int coffecient,var,exp;
+    int coffecient,exp;
+    char var;
     printf("Enter the coffecient variable and exponent: ");
     scanf("%d %c %d",&coffecient,&var,&exp);
     struct node * newnode = (struct node *)malloc(sizeof(struct node));
