@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
-#include<math.h>
+
 
 struct node{
 int data;
@@ -12,10 +12,10 @@ void searchloc(int item);
 struct node *root = NULL;
 struct node* par=NULL;
 struct node *loc=NULL;
-
+//--------------------------------------------------------------------------------------
 void insert(){
     int item;
-    printf("ENter the item to insert: ");
+    printf("Enter the item to insert: ");
     scanf("%d",&item);
     struct node *newnode=(struct node *)malloc(sizeof(struct node));
     newnode->lchild = NULL;
@@ -51,6 +51,7 @@ void insert(){
       }
     }
 }
+//-----------------------------------------------------------------------------
 
 void preorder(struct node *root){
     if(root == NULL){
@@ -78,7 +79,7 @@ void postorder(struct node *root){
     printf("%d ",root->data);
 }
 
-
+//--------------------------------------------------------------------------------
 void searchloc(int item){
 loc = NULL;
 par = NULL;
@@ -150,7 +151,7 @@ else{
 }
 
 }
-
+//------------------------------------------------------------------------------------------
 int maximum(int a,int b){
   if(a>b){
     return a;
@@ -176,6 +177,42 @@ int leaf(struct node* root){
   int a = count;
   count = 0;
   return a;
+
+}
+//-------------------------------------------------
+int max =0;
+int finddia(struct node * root,int *max){
+  if(root == NULL){
+    return 0;
+  }
+
+  int lh = finddia(root->lchild,&max);
+  int rh = finddia(root->rchild,&max);
+  *max = maximum(*max,1+lh+rh);
+  return 1 + maximum(lh,rh);
+}
+
+//----------------------------------------------
+
+int successor(struct node * root,int num){
+int suc =0;
+while(root!=NULL){
+
+  if(num > root->data){
+    root = root->rchild;
+  }
+  else{
+    suc = root->data;
+    root = root->lchild;
+  }
+
+}
+return suc;
+  
+}
+
+//-----------------------------------------
+int predecessot(struct node * root,int num){
 
 }
 
@@ -213,7 +250,6 @@ int Height(struct node * root){
 //-----------------------------------------------------------------------------------------------------
 
 void case1(struct node *par ,struct node*loc){
-
 struct node*temp1,*temp2;
 temp1 = loc->lchild;
 temp2 = loc->rchild;
@@ -225,8 +261,6 @@ trav = trav->lchild;
 }
 trav->lchild = temp1;
 }
-
-
 else{
   struct node *trav = temp2;
 if(par->lchild == loc){
@@ -236,7 +270,6 @@ if(par->lchild == loc){
   }
   trav->lchild = temp1;
 }
-
 else if(par->rchild ==loc){
     par->rchild = temp2;
     struct node *trav = temp2;
@@ -246,14 +279,11 @@ else if(par->rchild ==loc){
     trav->lchild = temp1;
 }
 }
-
 free(loc);
-
 }
 //------------------------------------------------------------------------------------------------
 
 void case2(struct node*par,struct node*loc){
-
   if(par ==NULL && loc ==root ){
     if (root->rchild ==NULL){
       root = root->lchild;
@@ -284,9 +314,8 @@ else if(par!=NULL && loc !=NULL){
   }
 }
 free(loc);
-  }
-
-
+}
+//----------------------------------------------------------------------------------------
 void case3(struct node*par,struct node * loc){
 if(par == NULL && loc ==root){
 root = NULL;
@@ -343,6 +372,7 @@ void delete(){
     }
 
 }
+//-----------------------------------------------------------------------------------
 
 int arsize=0;
 int arr[50];
@@ -380,17 +410,33 @@ int leftcount(struct node * root){
 
 //----------------------------------------------------------------------------
 
+int atmost(struct node * root){
+  if(root == NULL){
+    return 0;
+  }
+
+  int count=0;
+  if(root->lchild!=NULL && root->rchild !=NULL){
+    count = 1;
+  }
+  count += atmost(root->lchild);
+  count += atmost(root->rchild);
+  return count;
+}
+
+//--------------------------------------------------------------------------------------
 
 int main(){
     bool a = true;
-    int item,height,count,j,k,large,child,rnum,lnum;
+    int item,height,count,j,k,large,child,rnum,lnum,most,succ,pred;
     int choice;
     printf("1 - Insert element:\t\t2 - Preorder Traversal:\n");
     printf("3 - Inorder Traversal:\t\t4 - Postorder Traversal:\n");
     printf("5 - Deleting by element:\t6 - Search Element:\n");
     printf("7 - Height of Tree:\t\t8 - Count of Leaf Nodes:\n");
     printf("9 - K largest element:\t\t10 - count number of node with child:\n");
-    printf("11 - Exit:\n");
+    printf("11 - Number of leftnodes:\t12 - number of right nodes: \n");
+    printf("13 - Number of nodes with 2 child:\t14 - Diameter of tree:\n");
     while(a){
     printf("\nEnter the choice: ");
     scanf("%d",&choice);
@@ -449,8 +495,21 @@ int main(){
         case 12:lnum = leftcount(root->lchild);
           printf("The number of nodes on left subtree are: %d",lnum);
         break;
+
+        case 13: most = atmost(root);
+        printf("The number of nodes: %d",most);
+        break;
+        case 14:int diameter =0;
+        finddia(root,&diameter);
         
-        case 13:a = false;
+        printf("%d",diameter);
+        break;
+        case 15:printf("Enter the element to find its successor: ");
+        succ = successor(root,item);
+        break;
+        case 16:
+        break;
+        case 17:a = false;
         break;
         
         default:printf("Enter a valid choice:\n");
