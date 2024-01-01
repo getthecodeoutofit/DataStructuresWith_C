@@ -186,8 +186,8 @@ int finddia(struct node * root,int *max){
     return 0;
   }
 
-  int lh = finddia(root->lchild,&max);
-  int rh = finddia(root->rchild,&max);
+  int lh = finddia(root->lchild,max);
+  int rh = finddia(root->rchild,max);
   *max = maximum(*max,1+lh+rh);
   return 1 + maximum(lh,rh);
 }
@@ -196,25 +196,58 @@ int finddia(struct node * root,int *max){
 
 int successor(struct node * root,int num){
 int suc =0;
-while(root!=NULL){
+if(root==NULL ){
+    return 0;
 
-  if(num > root->data){
-    root = root->rchild;
   }
-  else{
+  while(root->data!=num ){
     suc = root->data;
-    root = root->lchild;
+    if(num > root->data){
+      root = root->rchild;
+    }
+    else if(num < root->data){
+      root=root->lchild;
+    }
   }
 
-}
+  root = root->rchild;
+  while(root!=NULL){
+    root = root->lchild;
+    if(root!=NULL){
+    suc = root->data;
+    }
+  };
+
 return suc;
   
 }
 
 //-----------------------------------------
-int predecessot(struct node * root,int num){
+int predecessor(struct node * root,int num){
 
-}
+  int pre =0;
+  if(root == NULL ){
+    return 0;
+
+  }
+  while(root->data!=num && root != NULL){
+    pre = root->data;
+    if(num > root->data){
+      root = root->rchild;
+    }
+    else if(num < root->data){
+      root=root->lchild;
+    }
+  }
+  root = root->lchild;
+  while(root!=NULL){
+    root = root->rchild;
+    if(root!=NULL){
+    pre = root->data;
+    }
+  };
+  return pre;
+};
 
 //----------------------------------------------------------------------------------------------
 int atleastchild(struct node *root){
@@ -428,15 +461,16 @@ int atmost(struct node * root){
 
 int main(){
     bool a = true;
-    int item,height,count,j,k,large,child,rnum,lnum,most,succ,pred;
+    int item,height,count,j,k,large,child,rnum=0,lnum=0,most;
     int choice;
-    printf("1 - Insert element:\t\t2 - Preorder Traversal:\n");
-    printf("3 - Inorder Traversal:\t\t4 - Postorder Traversal:\n");
-    printf("5 - Deleting by element:\t6 - Search Element:\n");
-    printf("7 - Height of Tree:\t\t8 - Count of Leaf Nodes:\n");
-    printf("9 - K largest element:\t\t10 - count number of node with child:\n");
-    printf("11 - Number of leftnodes:\t12 - number of right nodes: \n");
+    printf("\n\n1 - Insert element:\t\t\t2 - Preorder Traversal:\n");
+    printf("3 - Inorder Traversal:\t\t\t4 - Postorder Traversal:\n");
+    printf("5 - Deleting by element:\t\t6 - Search Element:\n");
+    printf("7 - Height of Tree:\t\t\t8 - Count of Leaf Nodes:\n");
+    printf("9 - K largest element:\t\t\t10 - count number of node with child:\n");
+    printf("11 - Number of leftnodes:\t\t12 - number of right nodes: \n");
     printf("13 - Number of nodes with 2 child:\t14 - Diameter of tree:\n");
+    printf("15 - Successor of a number:\t\t16 - predecessor of a number:\n");
     while(a){
     printf("\nEnter the choice: ");
     scanf("%d",&choice);
@@ -489,25 +523,38 @@ int main(){
           child = atleastchild(root);
           printf("%d",child);
         break;
-        case 11:rnum = rightcount(root->rchild);
-          printf("The number of nodes in the right subtree are: %d",rnum);
+        case 11:
+        if(root != NULL){
+        rnum = rightcount(root->rchild);
+        }
+        printf("The number of nodes in the right subtree are: %d",rnum);
         break;
-        case 12:lnum = leftcount(root->lchild);
-          printf("The number of nodes on left subtree are: %d",lnum);
+        case 12:
+        if(root!=NULL){
+        lnum = leftcount(root->lchild);
+        }
+        printf("The number of nodes on left subtree are: %d",lnum);
         break;
-
-        case 13: most = atmost(root);
+        case 13: 
+        most = atmost(root);
         printf("The number of nodes: %d",most);
         break;
         case 14:int diameter =0;
         finddia(root,&diameter);
-        
         printf("%d",diameter);
         break;
         case 15:printf("Enter the element to find its successor: ");
+        scanf("%d",&item);
+        int succ;
         succ = successor(root,item);
+        printf("The successor is: %d\n",succ);
         break;
         case 16:
+        printf("Enter the element to find its predecessor: ");
+        scanf("%d",&item);
+        int pre;
+        pre = predecessor(root,item);
+        printf("The predecessor is: %d\n",pre);
         break;
         case 17:a = false;
         break;
