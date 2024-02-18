@@ -1,9 +1,6 @@
 #include<stdio.h>
 #include<string.h>
-//we have to create a infix to postfix converter
-// we needed A stack,a string and a postfix string
 
-// doing according to rules of conversion
 
 char infix[20]; // a string where we will store our infix expression
 char post[20]; // here we will store the final converted expression
