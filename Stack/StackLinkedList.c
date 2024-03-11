@@ -1,17 +1,19 @@
 #include<stdio.h>
 #include<stdbool.h>
 #include<stdlib.h>
+
 int stacksize = 0;
+
 struct node{
-    int a;
-struct node* con;
+    int data;
+struct node* link;
 };
 
 void listinsert(struct node **top_add,int num,int *size){
     struct node *temp;
     temp = (struct node *)malloc(sizeof(struct node));
-    temp->a=num;
-    temp->con = *top_add;
+    temp->data=num;
+    temp->link = *top_add;
     *top_add = temp;
     (*size)++;
 }
@@ -24,7 +26,7 @@ if(*top_add==NULL){
 else{
     struct node* temp;
     temp = *top_add;
-    *top_add = temp->con;
+    *top_add = temp->link;
     free(temp);
 }
 (*size)--;
@@ -38,8 +40,8 @@ void listprint( struct node *top_add){
         return;
     }
     while(temp1!=NULL){
-        printf("%d ",temp1->a);
-        temp1 = temp1->con;
+        printf("%d ",temp1->data);
+        temp1 = temp1->link;
     }
 }
 
@@ -47,11 +49,11 @@ void searchlist(struct node *top,int key){
     
     while(top!=NULL){
         
-        if(top->a==key){
+        if(top->data == key){
             printf("\nThe number found with structure address: %p",top);
             return;
         }
-        top = top->con;
+        top = top->link;
     }
     printf("Not found: ");
 }
@@ -96,9 +98,10 @@ while(b){
     case 6: b = false;
        break;
     
-    default:
+    default:printf("Enter the valid choice: ");
         break;
 
     }
 }
+return 0;
 }

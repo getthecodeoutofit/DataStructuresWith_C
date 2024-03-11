@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdbool.h>
+
 void insertion(int num,int size,int *stack,int *top){
     if(*top>=size-1){
         printf("stack overflow: ");

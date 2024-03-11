@@ -1,7 +1,6 @@
 #include<stdlib.h>
 #include<stdio.h>
 
-
 struct node{
     int data;
     struct node * next;
@@ -58,7 +57,6 @@ void frontdelete(){
 }
 
 void backdelete(){
-
     printf("Deleting item from end: \n");
     if(head == NULL){
         printf("no item to pop: \n");
@@ -78,12 +76,7 @@ void backdelete(){
         }
         slow->next = NULL;
         free(fast);
-
     }
-
-
-
-   
 }
 
 void display(){

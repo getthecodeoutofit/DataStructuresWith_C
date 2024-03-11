@@ -1,10 +1,10 @@
 #include<stdio.h>
 
-void selectionSort(int *arr,int n){
+void JumpS(int *arr,int n,int key){
     
-    
-}
 
+
+}
 
 int main(){
     int n;
@@ -12,12 +12,13 @@ int main(){
     printf("Enter the size of the array: ");
     scanf("%d",&n);
     printf("Enter the elements of the array: ");
-    for(int i=0;i<n;i++){
+    for(int i=0; i<n; i++){
         scanf("%d",&arr[i]);
     }
-    selectionSort(arr,n);
-    printf("The sorted array is: ");
-    for(int i=0;i<n;i++){
-        printf("%d",arr[i]);
-    }
+    int key;
+    printf("Enter the key to be searched: ");
+    scanf("%d",&key);
+
+    JumpS(arr,n,key);
+    return 0;
 }
