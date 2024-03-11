@@ -1,9 +1,20 @@
 #include<stdio.h>
 
-
 void search(int *arr,int item,int size){
-    int left,right;
-
+    int left =0,right = size-1;
+    while(left < right){
+    int mid = left + ((right - left)/2);
+        if(arr[mid] == item){
+            printf("key found at index : %d\n",mid);
+            return ;
+        }
+        else if(arr[mid]>item){
+            right = mid-1;
+        }
+        else if(arr[mid]<item){
+            left = mid+1;   
+        }
+    }
 }
 
 int main(){
@@ -22,6 +33,4 @@ int main(){
 
     search(array,item,size);
     return 0;
-
-
 }

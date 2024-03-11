@@ -25,7 +25,8 @@ scanf("%d",&arr[i]);
     insertionSort(arr,n);
     printf("The array is now: ");
     for(int i =0;i<n;i++){
-        printf("%d",arr[i]);
+        printf("%d ",arr[i]);
     }
+    printf("\n");
     return 0;
 }
