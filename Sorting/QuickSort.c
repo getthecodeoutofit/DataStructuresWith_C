@@ -1,61 +1,52 @@
 #include<stdio.h>
 
+void swap(int *arr,int l,int h){
+  int temp = arr[l];
+  arr[l] = arr[h];
+  arr[h] = temp;
+}
 
-int fn(int * arr,int low,int high){
-    
-    int i=low,j=high;
-    int pivot = arr[low];
-    
-    while(i<j){
-      while(pivot >= arr[i] && i <= high){
-        i++;
-      }
-      while(pivot <= arr[j] && j>=low){
-        j--;
-      }
-      if(i<j){
-        int temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
-      }
+int piv(int *arr,int l,int h){
+  int piv = h--;
+  while(l < h){
+    if(arr[l]<arr[piv]){
+      l++;
     }
-    if(i==j){
-      int temp = arr[low];
-      arr[low] = arr[i];
-      arr[i] = temp;
-    }
-    return j;
-  
-};
 
-void QuickSort(int *arr,int low,int high){
-  
-  if(low<high){
-    int pivot = fn(arr,low,high);
-    QuickSort(arr,low,pivot-1);
-    QuickSort(arr,pivot+1,high);
+    else if(arr[h]>arr[piv]){
+      h--;
+    }
+
+    else{
+
+      swap(arr,l,h);
+      h--;
+      l++;
+    }
   }
-  
+  swap(arr,l,piv);
+  return l;
+
+}
+
+void quick(int *arr,int l,int h){
+if(l>=h){
+  return;
+}
+int pivot = piv(arr,l,h);
+quick(arr,l,pivot-1);
+quick(arr,pivot+1,h);
 }
 
 int main(){
-  
-  int arr[40];
-  int n,i;
-  printf("Enter the size of array: ");
-  scanf("%d",&n);
-  
-  for(i=0;i<n;i++){
-  printf("Enter the element: ");
-    scanf("%d",&arr[i]);
+  int arr[] = {8,56,3,9,1,3,5};
+
+  quick(arr,0,6);
+  for(int i=0;i<7;i++){
+    printf("%d ",arr[i]);
   }
-  
-  QuickSort(arr,0,n-1);
-  
-  printf("The array is:");
-  
-  for(i=0;i<n;i++){
-    printf(" %d",arr[i]);
-  }
+
+
+
   return 0;
 }
